@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JwtDecoder</title>
+    <base href="/" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="JwtDecoder.styles.css" rel="stylesheet" />
+    <script>
+        window.getSelectionRect = function () {
+            const sel = window.getSelection();
+            if (!sel.rangeCount) return null;
+            const range = sel.getRangeAt(0);
+            const rect = range.getBoundingClientRect();
+            // Возвращаем координаты с учётом прокрутки
+            return {
+                top: rect.top + window.scrollY,
+                left: rect.left + window.scrollX,
+                width: rect.width,
+                height: rect.height
+            };
+        };
+
+        window.registerPreCodeSelectionHandler = function (elementId, dotNetHelper) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+
+            el.addEventListener('mouseup', function () {
+                // Если выделение есть, получаем его текст и координаты
+                const selection = window.getSelection().toString();
+                if (selection) {
+                    const rect = window.getSelectionRect();
+                    // Передаём в Blazor: выделенный текст и координаты
+                    dotNetHelper.invokeMethodAsync('OnTextSelected', selection, rect);
+                }
+            });
+        };
+
+        window.copyToClipboard = (text) => {
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    console.log('Copied to clipboard');
+                })
+                .catch(err => {
+                    console.error('Error copying to clipboard', err);
+                });
+        };
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
+
+</html>

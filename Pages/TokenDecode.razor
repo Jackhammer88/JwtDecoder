@@ -1,0 +1,48 @@
+@page "/"
+@inject IJSRuntime Js
+
+<h3 class="header">Token Decoder</h3>
+
+<div class="layout">
+    <div class="panel">
+        <div class="panel-content">
+            <label>Input JWT token:</label>
+            <textarea @oninput="HandleInput" class="token-input" placeholder="Input your JWT token here..."></textarea>
+        </div>
+    </div>
+
+    <div class="panel right">
+        <div class="panel-content">
+            <label>Decoded public part (Payload):</label>
+            <div class="relative-container">
+                <button id="copy-btn" @onclick="Copy"
+                        disabled="@(string.IsNullOrWhiteSpace(DecodedPayload) || IsProcessing)">Copy
+                </button>
+            </div>
+            <pre class="decoded-output">
+                @if (IsProcessing)
+                {
+                    <div class="spinner"></div>
+                }
+                else
+                {
+                    <code id="codeBlock" class="language-json">@DecodedPayload</code>
+                }
+            </pre>
+        </div>
+    </div>
+</div>
+
+@if (ShowPopup && SelectionRectangle != null)
+{
+    <div class="popup"
+         style="position: absolute; top:@(Math.Floor(SelectionRectangle.Top + SelectionRectangle.Height + 5))px; left:@(Math.Floor(SelectionRectangle.Left))px;">
+        <div class="popup-header">
+            <span><strong>DateTime </strong></span>
+            <button class="close-button" @onclick="() => ShowPopup = false">✖</button>
+        </div>
+        <div class="popup-content">
+            <p>@SelectedText</p>
+        </div>
+    </div>
+}

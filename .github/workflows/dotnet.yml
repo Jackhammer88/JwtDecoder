@@ -23,10 +23,11 @@ jobs:
         run: dotnet restore
 
       - name: Publish Blazor
-        run: | 
-          - dotnet publish -c Release ./JwtDecoder.csproj -o buildOutput
-          - touch ./buildOutput/wwwroot/.nojekyll
-
+        run: dotnet publish -c Release ./JwtDecoder.csproj -o buildOutput
+          
+      - name: Creating nojekyll
+        run: touch ./buildOutput/wwwroot/.nojekyll
+      
       - name: Deploy to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:

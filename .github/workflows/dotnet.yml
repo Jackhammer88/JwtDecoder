@@ -24,7 +24,7 @@ jobs:
 
       - name: Publish Blazor
         run: | 
-          - dotnet publish ./JwtDecoder/JwtDecoder.csproj -c Release -o buildOutput
+          - dotnet publish -c Release ./JwtDecoder.csproj -o buildOutput
           - touch ./buildOutput/wwwroot/.nojekyll
 
       - name: Deploy to gh-pages

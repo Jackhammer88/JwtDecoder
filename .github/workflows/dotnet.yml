@@ -1,0 +1,32 @@
+name: Publish Blazor WASM to GitHub Pages
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Install WASM workload
+        run: dotnet workload install wasm-tools
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Publish Blazor (AOT если нужно)
+        run: dotnet publish --configuration Release --output buildOutput
+
+      - name: Deploy to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: buildOutput/wwwroot

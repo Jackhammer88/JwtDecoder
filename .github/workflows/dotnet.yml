@@ -23,7 +23,9 @@ jobs:
         run: dotnet restore
 
       - name: Publish Blazor
-        run: dotnet publish --configuration Release --output buildOutput
+        run: | 
+          - dotnet publish ./JwtDecoder/JwtDecoder.csproj -c Release -o buildOutput
+          - touch ./buildOutput/wwwroot/.nojekyll
 
       - name: Deploy to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4

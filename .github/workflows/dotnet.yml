@@ -21,6 +21,9 @@ jobs:
 
       - name: Restore
         run: dotnet restore
+        
+      - name: Set base href
+        run: sed -i 's/<base href="\/" \/>/<base href="\/JwtDecoder\/" \/>/g' ./wwwroot/index.html
 
       - name: Publish Blazor
         run: dotnet publish -c Release ./JwtDecoder.csproj -o buildOutput

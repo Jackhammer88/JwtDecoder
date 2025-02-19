@@ -22,7 +22,7 @@ jobs:
       - name: Restore
         run: dotnet restore
 
-      - name: Publish Blazor (AOT если нужно)
+      - name: Publish Blazor
         run: dotnet publish --configuration Release --output buildOutput
 
       - name: Deploy to gh-pages

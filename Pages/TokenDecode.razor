@@ -20,13 +20,10 @@
                 </button>
             </div>
             <pre class="decoded-output">
+                <code id="codeBlock" class="language-json">@DecodedPayload</code>
                 @if (IsProcessing)
                 {
                     <div class="spinner"></div>
-                }
-                else
-                {
-                    <code id="codeBlock" class="language-json">@DecodedPayload</code>
                 }
             </pre>
         </div>
